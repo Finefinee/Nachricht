@@ -25,14 +25,14 @@ public class AuthService {
     private final UserRepository userRepository;
 
     public void register(RegisterRequest request) {
-        if (userRepository.existsByUsername(request.username())) {
+        if (userRepository.existsById(request.username())) {
             throw new IllegalArgumentException("이미 존재하는 사용자");
         }
 
         UserEntity user = UserEntity.builder()
                 .username(request.username())
                 .password(passwordEncoder.encode(request.password()))
-                .profileImageUrl(null) // 기본값 없으면 null 처리
+                .profileImageUrl(null)
                 .role(UserRole.USER)
                 .build();
 
@@ -48,16 +48,14 @@ public class AuthService {
         }
 
         String username = request.username();
-
         String accessToken = jwtProvider.generateAccessToken(username);
-
         String refreshToken = jwtProvider.generateRefreshToken(username);
 
         refreshTokenRepository.deleteById(username);
 
         RefreshToken refreshTokenEntity = RefreshToken.builder()
                 .username(username)
-                .token(passwordEncoder.encode(refreshToken))
+                .token(refreshToken) // BCrypt 인코딩 제거
                 .expiry(jwtProvider.getExpire(refreshToken))
                 .build();
         refreshTokenRepository.save(refreshTokenEntity);
@@ -67,14 +65,13 @@ public class AuthService {
 
     @Transactional
     public JwtResponse refresh(RefreshRequest request) {
-
         String refreshToken = request.refreshToken();
         String username = jwtProvider.getUsername(refreshToken);
 
         RefreshToken savedRefreshToken = refreshTokenRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 토큰입니다."));
 
-        if (!passwordEncoder.matches(refreshToken, savedRefreshToken.getToken())) {
+        if (!refreshToken.equals(savedRefreshToken.getToken())) { // equals 비교로 변경
             throw new RuntimeException("유효하지 않은 토큰");
         }
 
@@ -83,8 +80,5 @@ public class AuthService {
         String newAccessToken = jwtProvider.generateAccessToken(savedRefreshToken.getUsername());
 
         return new JwtResponse(newAccessToken, refreshToken);
-
     }
-
-
 }

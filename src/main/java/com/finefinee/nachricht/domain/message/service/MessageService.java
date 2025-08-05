@@ -17,13 +17,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MessageService {
 
-    private final MessengerRoomRepository messengerRoomRepository;
     private final MessageRepository messageRepository;
     private final UserRepository userRepository;
     private final MessengerRoomRepository roomRepository;
 
     public MessageEntity sendMessage(SendMessageRequest request) {
-        UserEntity sender = userRepository.findById(request.senderUsername())
+        UserEntity sender = userRepository.findByUsername(request.senderUsername())
                 .orElseThrow(() -> new RuntimeException("보낸 사람 없음"));
 
         MessengerRoom room = roomRepository.findById(request.roomId())
