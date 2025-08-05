@@ -21,7 +21,7 @@ public class MessengerRoomController {
      */
     @PostMapping("/create")
     public ResponseEntity<MessengerRoom> createOrFindRoom(
-            CreateMessengerRoomRequest createMessengerRoomRequest) {
+            @RequestBody CreateMessengerRoomRequest createMessengerRoomRequest) {
         MessengerRoom room = messengerRoomService.findOrCreateRoom(createMessengerRoomRequest.participants().get(0), createMessengerRoomRequest.participants().get(1));
         return ResponseEntity.ok(room);
     }

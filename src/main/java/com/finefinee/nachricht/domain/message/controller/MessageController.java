@@ -9,6 +9,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -21,7 +22,7 @@ public class MessageController {
 
     // /app/chat.send 로 메시지 들어오면 실행됨
     @MessageMapping("/chat.send")
-    public void sendMessage(SendMessageRequest request) {
+    public void sendMessage(@RequestBody SendMessageRequest request) {
         // 메시지 DB에 저장
         messageService.sendMessage(request);
 

@@ -61,3 +61,4 @@ public class MessengerRoomService {
         return messengerRoomRepository.findByParticipantsUsername(username);
     }
 }
+
