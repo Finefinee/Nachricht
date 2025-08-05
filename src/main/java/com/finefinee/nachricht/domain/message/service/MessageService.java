@@ -21,7 +21,7 @@ public class MessageService {
     private final UserRepository userRepository;
     private final MessengerRoomRepository roomRepository;
 
-    public MessageEntity sendMessage(SendMessageRequest request) {
+    public void sendMessage(SendMessageRequest request) {
         UserEntity sender = userRepository.findByUsername(request.senderUsername())
                 .orElseThrow(() -> new RuntimeException("보낸 사람 없음"));
 
@@ -35,7 +35,8 @@ public class MessageService {
                 .sentAt(LocalDateTime.now())
                 .build();
 
-        return messageRepository.save(message);
+        messageRepository.save(message);
+        System.out.println("저장됨");
     }
 
     public List<MessageEntity> getMessages(Long roomId) {

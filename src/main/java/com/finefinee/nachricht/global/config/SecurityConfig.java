@@ -31,10 +31,12 @@ public class SecurityConfig {
         http.httpBasic(AbstractHttpConfigurer::disable);
 
         http.authorizeHttpRequests((auth) -> auth
-                .requestMatchers("/auth/**").permitAll()              // ✅ 슬래시 추가
-                .requestMatchers("/api/rooms/**").authenticated()     // ✅ 채팅방 API
-                .requestMatchers("/api/messages/**").authenticated()  // ✅ 메시지 API (현재 차단됨)
-                .requestMatchers("/messages/**").authenticated()      // ✅ 메시지 조회 API
+                .requestMatchers("/auth/**").permitAll()
+                .requestMatchers("/ws-chat/**").permitAll()         // ✅ WebSocket SockJS 엔드포인트 허용
+                .requestMatchers("/ws-chat").permitAll()            // ✅ WebSocket 기본 엔드포인트 허용
+                .requestMatchers("/api/rooms/**").authenticated()
+                .requestMatchers("/api/messages/**").authenticated()
+                .requestMatchers("/messages/**").authenticated()
                 .anyRequest().authenticated()
         );
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
