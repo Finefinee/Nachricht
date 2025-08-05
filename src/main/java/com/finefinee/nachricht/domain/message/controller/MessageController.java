@@ -1,7 +1,6 @@
 package com.finefinee.nachricht.domain.message.controller;
 
 import com.finefinee.nachricht.domain.message.dto.SendMessageRequest;
-import com.finefinee.nachricht.domain.message.entity.MessageEntity;
 import com.finefinee.nachricht.domain.message.service.MessageService;
 import com.finefinee.nachricht.domain.messageroom.service.MessengerRoomService;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +23,7 @@ public class MessageController {
     @MessageMapping("/chat.send")
     public void sendMessage(SendMessageRequest request) {
         // 메시지 DB에 저장
-        MessageEntity savedMessage = messageService.sendMessage(request);
+        messageService.sendMessage(request);
 
         String receiver = messengerRoomService.findReceiverUsername(request.roomId(), request.senderUsername());
         String destination = "/queue/user." + receiver;

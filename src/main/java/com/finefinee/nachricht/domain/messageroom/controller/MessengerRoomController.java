@@ -1,5 +1,6 @@
 package com.finefinee.nachricht.domain.messageroom.controller;
 
+import com.finefinee.nachricht.domain.messageroom.dto.CreateMessengerRoomRequest;
 import com.finefinee.nachricht.domain.messageroom.entity.MessengerRoom;
 import com.finefinee.nachricht.domain.messageroom.service.MessengerRoomService;
 import lombok.RequiredArgsConstructor;
@@ -20,9 +21,8 @@ public class MessengerRoomController {
      */
     @PostMapping("/create")
     public ResponseEntity<MessengerRoom> createOrFindRoom(
-            @RequestParam String user1,
-            @RequestParam String user2) {
-        MessengerRoom room = messengerRoomService.findOrCreateRoom(user1, user2);
+            CreateMessengerRoomRequest createMessengerRoomRequest) {
+        MessengerRoom room = messengerRoomService.findOrCreateRoom(createMessengerRoomRequest.participants().get(0), createMessengerRoomRequest.participants().get(1));
         return ResponseEntity.ok(room);
     }
 
