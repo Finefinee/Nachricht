@@ -1,17 +1,20 @@
 package com.finefinee.nachricht.global.security.jwt.provider;
 
+import java.util.Date;
+
+import javax.crypto.SecretKey;
+
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
+
 import com.finefinee.nachricht.domain.user.entity.UserEntity;
 import com.finefinee.nachricht.domain.user.repository.UserRepository;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Component;
-
-import javax.crypto.SecretKey;
-import java.util.Date;
 
 @Component
 @RequiredArgsConstructor
@@ -19,7 +22,7 @@ public class JwtProvider {
 
     private final UserRepository userRepository;
 
-    private final String secret = "0vj2nvnvjaj2kvkblnksjv8vq8vn4iaiv2vr6vecdrxjk9b9a";
+    private final String secret = "MGRqMm52bnZqYWoya3ZrYmxua3NqdjhidkBwYThsbjRpYWl2MnZyNnZlY2RyeGprOWI5YQ==";
     private final SecretKey secretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));
 
     public String generateAccessToken(String username) {
