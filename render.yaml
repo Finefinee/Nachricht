@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: Nachricht
+    runtime: docker
+    repo: https://github.com/Finefinee/Nachricht
+    branch: master
+    plan: free
+    dockerfilePath: ./Dockerfile
+    autoDeploy: true
