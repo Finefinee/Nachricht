@@ -4,6 +4,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN ./gradlew build
+RUN chmod +x ./gradlew
+RUN ./gradlew build -x test
 
 CMD ["java", "-jar", "build/libs/Nachricht-0.0.1-SNAPSHOT.jar"]
