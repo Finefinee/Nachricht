@@ -22,7 +22,7 @@ public class JwtProvider {
 
     private final UserRepository userRepository;
 
-    private final String secret = "MGRqMm52bnZqYWoya3ZrYmxua3NqdjhidkBwYThsbjRpYWl2MnZyNnZlY2RyeGprOWI5YQ==";
+    private final String secret = System.getenv("JWT_SECRET");
     private final SecretKey secretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));
 
     public String generateAccessToken(String username) {
